@@ -1,0 +1,53 @@
+Image Processing Practical - CS317 (Without Inbuilt Libraries)
+
+import numpy as np import matplotlib.pyplot as plt
+
+1(a) Create a binary mask without using inbuilt functions
+
+def create_binary_mask_custom(size=255, inner_radius=50, outer_radius=100): mask = np.zeros((size, size), dtype=np.uint8) center = (size // 2, size // 2) for y in range(size): for x in range(size): distance = ((x - center[0]) ** 2 + (y - center[1]) ** 2) ** 0.5 if inner_radius < distance <= outer_radius: mask[y, x] = 255 return mask
+
+1(b) Apply the binary mask to the image
+
+def apply_mask_custom(image, mask): result = np.zeros_like(image) for y in range(image.shape[0]): for x in range(image.shape[1]): if mask[y, x] == 255: result[y, x] = image[y, x] return result
+
+2(a) Generate a bit-plane image
+
+def bit_plane_slicing_custom(image, bit): bitplane = np.zeros_like(image) for y in range(image.shape[0]): for x in range(image.shape[1]): bit_value = (image[y, x] >> bit) & 1 bitplane[y, x] = bit_value * 255 return bitplane
+
+2(b) Apply bit-plane as binary mask
+
+def apply_bitplane_mask_custom(image, bitplane): result = np.zeros_like(image) for y in range(image.shape[0]): for x in range(image.shape[1]): result[y, x] = image[y, x] if bitplane[y, x] == 255 else 0 return result
+
+3(a) Reduce contrast manually
+
+def reduce_contrast_custom(image, alpha=0.5): reduced = np.clip(image * alpha, 0, 255).astype(np.uint8) return reduced
+
+Plot histogram manually
+
+def plot_histogram_custom(image, title): hist = np.zeros(256) for y in range(image.shape[0]): for x in range(image.shape[1]): hist[image[y, x]] += 1 plt.figure() plt.title(title) plt.bar(range(256), hist) plt.show()
+
+3(b) Histogram equalization without inbuilt functions
+
+def histogram_equalization_custom(image): hist = np.zeros(256) for y in range(image.shape[0]): for x in range(image.shape[1]): hist[image[y, x]] += 1 cdf = np.cumsum(hist) / np.sum(hist) equalized = np.array([int(cdf[val] * 255) for val in image.flat]).reshape(image.shape) return equalized
+
+Main execution
+
+if name == 'main': image = np.random.randint(0, 256, (255, 255), dtype=np.uint8) mask = create_binary_mask_custom() masked_image = apply_mask_custom(image, mask) plt.imshow(masked_image, cmap='gray') plt.title('Masked Image') plt.show()
+
+# Bit-plane slicing
+bitplane = bit_plane_slicing_custom(image, 7)
+plt.imshow(bitplane, cmap='gray')
+plt.title('Bit Plane 7')
+plt.show()
+
+# Reduced contrast
+contrast_reduced = reduce_contrast_custom(image)
+plot_histogram_custom(image, 'Original Histogram')
+plot_histogram_custom(contrast_reduced, 'Reduced Contrast Histogram')
+
+# Histogram equalization
+equalized = histogram_equalization_custom(contrast_reduced)
+plt.imshow(equalized, cmap='gray')
+plt.title('Equalized Image')
+plt.show()
+
