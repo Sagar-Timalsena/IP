@@ -1,0 +1,35 @@
+Question 1: (20 Marks)
+(a) Form a centered binary mask of size 
+255
+×
+255
+255×255 of a disc with:
+
+Inner radius = 50 pixels
+
+Outer radius = 100 pixels
+
+(b) Convert the image of size 
+255
+×
+255
+255×255 and apply the mask such that:
+
+The ring of the mask is filled by the image
+
+The other portion is set to black
+
+Question 2: (20 Marks)
+(a) Write a program to generate a bit-plane image of an image.
+
+(b) Take the generated bit-plane image from 2(a) as a binary mask and apply it as an AND mask on the provided image (Color or Grayscale).
+
+Question 3: (30 Marks)
+(a) Using an appropriate transform, reduce the contrast of a given image.
+
+Draw the histogram of the original image and the contrast-reduced image.
+
+Use library functions to plot the histogram.
+
+(b) Apply the histogram equalization method on the low-contrast image obtained in 3(a).
+
